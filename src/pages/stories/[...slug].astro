@@ -1,0 +1,52 @@
+---
+import { getCollection } from "astro:content";
+import Main from "../../layouts/main.astro";
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection("stories", (e) => import.meta.env.NODE_ENV !== 'production' || !e.data.draft);
+  return blogEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const storiesCollection = await getCollection('stories', (e) => {
+  return import.meta.env.NODE_ENV !== 'production' || !e.data.draft
+});
+// Sort the items by chapter
+storiesCollection.sort((a, b) => a.data.chapter - b.data.chapter)
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+---
+<Main>
+  <div class="md:col-span-8 md:col-start-3 col-span-10 col-start-2">
+    <h1 class="title text-4xl text-center font-sans font-bold my-4">{entry.data.title} </h1>
+    <h2 class="chapter-title text-2xl text-center my-3 text-zinc-300">
+      {entry.data.chapter === 0 ? 'Prologue': `Chapter ${entry.data.chapter}`}
+    </h2>
+    <Content />
+  </div>
+  <div class="hidden md:block md:col-span-2 sticky top-12 ">
+    <ol class="mt-9 ml-4">
+      {storiesCollection.map(chapter => (
+        <li class={chapter.slug === entry.slug ? 'font-bold' : undefined}>
+          <a href={`/stories/${chapter.slug}`}>{chapter.data.chapter === 0 ? 'Prologue': `Chapter ${chapter.data.chapter}`}</a>
+        </li>
+      ))}
+    </ol>
+  </div>
+</Main>
+
+<style is:global>
+  p {
+    line-height: theme('spacing.6');
+  }
+  p + p {
+    text-indent: theme('spacing.6');
+    margin-top: theme('spacing.2');
+    line-height: theme('spacing.6');
+  }
+  
+</style>
