@@ -1,0 +1,28 @@
+---
+import MainLayout from "../../layouts/main.astro";
+// import { collections } from '../../content/config'; 
+---
+
+<MainLayout>
+  <section class="col-span-8 col-start-3 p-4" id="main-info">
+    <h1 class="title text-4xl text-center font-black mb-3 mt-4">Stories</h1>
+    <p>
+      The stories that I&apos;ve written over the years are generally a mix of random things
+    </p>
+    <main>
+      <article class="border p-3 rounded-md">
+        <header>
+          <h2 class="title text-2xl font-black">House Stray</h2>
+        </header>
+      </article>
+    </main>
+  </section>
+  <div class="col-start-11 col-span-2" id="side-info">
+  </div>
+</MainLayout>
+
+<style>
+  main article + article {
+    margin-top: theme("spacing.4");
+  }
+</style>

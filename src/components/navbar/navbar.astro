@@ -1,0 +1,27 @@
+---
+const { class: className } = Astro.props;
+---
+
+<nav class={`${className} grid grid-cols-subgrid`}>
+  <div class="flex items-center">
+    Logo
+  </div>
+  <div class="grid grid-cols-subgrid col-span-3 col-end-13 gap-x-2">
+    <div class="flex items-center justify-center">
+      <a href="/">Home</a>
+    </div>
+    <div class="flex items-center justify-center">
+      <a href="/stories">Stories</a>
+    </div>
+  </div>
+  
+</nav>
+
+<style>
+  a:hover {
+    text-decoration: underline;
+  }
+  a.active {
+    font-weight: 600;
+  }
+</style>
