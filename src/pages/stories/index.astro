@@ -1,6 +1,36 @@
 ---
 import MainLayout from "../../layouts/main.astro";
-// import { collections } from '../../content/config'; 
+import { getCollection } from "astro:content";
+const stories = await getCollection('stories', e => import.meta.env.NODE_ENV !== 'production' || !e.data.draft)
+  .then(st => st.sort((a, b) => a.data.chapter - b.data.chapter));
+
+type Story = Awaited<ReturnType<typeof getCollection<'stories'>>>[number];
+
+type MappedStory = {
+  title: string;
+  chapters: number;
+  tags: Set<string>;
+    slug: string;
+}
+
+type StoryGroup = Record<string, MappedStory>;
+
+const groupedStories = stories.reduce((acc, story) => {
+  if(!acc[story.data.title]) acc[story.data.title] = {
+    title: story.data.title,
+    chapters: 0,
+    tags: new Set(),
+    slug: story.slug,
+  }
+
+  acc[story.data.title].chapters +=1;
+  for(const tag of story.data.tags) {
+    acc[story.data.title].tags.add(tag);
+  }
+  
+  return acc;
+}, {} as Record<string, MappedStory>);
+
 ---
 
 <MainLayout>
@@ -10,11 +40,30 @@ import MainLayout from "../../layouts/main.astro";
       The stories that I&apos;ve written over the years are generally a mix of random things
     </p>
     <main>
-      <article class="border p-3 rounded-md">
-        <header>
-          <h2 class="title text-2xl font-black">House Stray</h2>
-        </header>
-      </article>
+      {
+        Object.entries(groupedStories)
+          .map(([title, storyItem]) => (
+            <article class="border p-3 rounded-md">
+              <a href={`/stories/${storyItem.slug}`}>
+                <header class="flex justify-between items-center">
+                  <h2 class="title text-2xl font-black">
+                    {title}
+                    <small>
+                      &ndash; {storyItem.chapters} Chapter(s)
+                    </small>
+                  </h2>
+                  <div class="flex gap-3">
+                    {
+                      Array.from(storyItem.tags).map(tag=> (
+                        <span class="text-zinc-700 bg-blue-300 text-sm p-2 rounded-md">{tag}</span>
+                      ))
+                    }
+                  </div>
+                </header>
+              </a>
+            </article>
+          ))
+      }
     </main>
   </section>
   <div class="col-start-11 col-span-2" id="side-info">
