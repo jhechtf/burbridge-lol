@@ -40,6 +40,7 @@ tags:
   - 
 draft: true
 ---`;
+
 console.log(`Writing file to ${fileName}`);
 await mkdir(dirname(fileName), { recursive: true });
 await writeFile(fileName, baseContent, { flag: 'w+'});
