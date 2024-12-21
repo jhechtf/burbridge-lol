@@ -12,7 +12,6 @@ env:
 
 jobs:
   review_app:
-    if: !contains(github.event.issue.labels.*.name, 'skip-deploy')
     runs-on: ubuntu-latest
     outputs:
       url: ${{ steps.deploy.outputs.url }}
