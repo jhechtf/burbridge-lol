@@ -13,6 +13,7 @@ export async function getStaticPaths() {
 const storiesCollection = await getCollection('stories', (e) => {
   return import.meta.env.NODE_ENV !== 'production' || !e.data.draft
 });
+
 // Sort the items by chapter
 storiesCollection.sort((a, b) => a.data.chapter - b.data.chapter)
 
