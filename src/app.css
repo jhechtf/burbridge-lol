@@ -90,12 +90,18 @@ body {
 		text-decoration: underline;
 	}
 
+  hr {
+    margin-block-start: --spacing(8);
+    margin-block-end: --spacing(8);
+  }
+
 	.lead {
 		font-size: 1.25em;
 	}
 
-	a:link,
-	a {
-		color: light-dark(var(--color-sky-700), var(--color-sky-400));
-	}
+  a:link,
+  a {
+    color: light-dark(var(--color-sky-700), var(--color-sky-400));
+  }
+
 }
