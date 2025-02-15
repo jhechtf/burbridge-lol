@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/main.astro';
+type Blog = Awaited<ReturnType<typeof getCollection<'blog'>>>[number];
+const blogs = await getCollection('blog', e => import.meta.env.NODE_ENV !== 'production' || !e.data.draft);
+---
+<MainLayout>
+  <div class="col-start-3 col-span-8 py-8">
+    <h1 class="text-4xl font-bold">
+      Blogs
+    </h1>
+    <p>
+      Occasionally I write about things that aren't really a story,
+      but they're not very short so I'll just make them into a blog post.
+    </p>
+    {blogs.map(blog => (
+      <article class="my-4">
+        <a href={`/blog/${blog.id}`}>
+          {blog.data.title}
+        </a>
+        
+      </article>
+    ))}
+  </div>
+</MainLayout>
