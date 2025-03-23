@@ -1,0 +1,40 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-text-token: light-dark(var(--color-zinc-900), var(--color-zinc-100));
+  --color-background-token: light-dark(var(--color-slate-100), var(--color-slate-900));
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+:root {
+  color-scheme: light dark;
+}
+
+html,body {
+  background-color: var(--color-background-token);
+  color: var(--color-text-token);
+}
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 1.25em;
+    margin-block-end: 0.25em;
+  }
+
+  h1 {
+    font-size: var(--text-3xl);
+    font-weight: var(--font-weight-black);
+  }
+
+  h2 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-extrabold);
+  }
+}
