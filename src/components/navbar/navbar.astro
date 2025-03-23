@@ -13,15 +13,21 @@ const { class: className } = Astro.props;
     <div class="flex items-center justify-center">
       <a href="/stories">Stories</a>
     </div>
+    <div class="flex items-center justify-center">
+      <a href="/other">Other writings</a>
+    </div>
   </div>
   
 </nav>
 
 <style>
+  a,a:link {
+    color: white;
+  }
   a:hover {
     text-decoration: underline;
   }
   a.active {
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
   }
 </style>

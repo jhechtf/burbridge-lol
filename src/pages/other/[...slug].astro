@@ -1,0 +1,44 @@
+---
+import { getCollection, render } from 'astro:content';
+import Main from "../../layouts/main.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection('other', (e) => import.meta.env.NODE_ENV !== 'production' || !e.data.draft);
+  return entries.map(entry => ({
+    params: { 
+      slug: entry.id,
+    },
+    props: { entry }
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const others = await getCollection('other', story => !story.data.draft && story.id !== entry.id);
+
+---
+
+<Main>
+  <div class="wrapper @lg/main:col-span-8 @lg/main:col-start-3 mt-8 grid grid-cols-subgrid">
+    <div class="@lg/main:col-span-6 p-4">
+      {
+        entry.data.title && 
+        <h2 class="mb-4">{entry.data.title} <small> by {entry.data.author}</small></h2>
+      }
+
+
+      <Content />
+    </div>
+    <aside class="@lg/main:col-span-2 p-4">
+      <h4>Other stories</h4>
+      {
+        others.length === 0 && (
+          <p>
+            No other stories available at the moment
+          </p>
+        )
+      }
+    </aside>
+  </div>
+</Main>

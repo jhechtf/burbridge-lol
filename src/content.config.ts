@@ -14,6 +14,19 @@ const storiesCollection = defineCollection({
   name: 'Stories',
 });
 
+const otherCollection = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/other'}),
+  schema: z.object({
+    author: z.string(),
+    title: z.string(),
+    tags: z.array(z.string()),
+    draft: z.boolean().default(true)
+  }),
+  // @ts-ignore I know this is hacky I don't care
+  name: 'Others',
+});
+
 export const collections = {
   stories: storiesCollection,
+  other: otherCollection
 };
