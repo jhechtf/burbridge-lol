@@ -3,8 +3,8 @@ import { getCollection, render } from "astro:content";
 import Main from "../../layouts/main.astro";
 
 export async function getStaticPaths() {
-  const blogEntries = await getCollection("stories", (e) => import.meta.env.NODE_ENV !== 'production' || !e.data.draft);
-  return blogEntries.map((entry) => ({
+  const storyEntries = await getCollection("stories", (e) => import.meta.env.NODE_ENV !== 'production' || !e.data.draft);
+  return storyEntries.map((entry) => ({
     params: { slug: entry.id },
     props: { entry },
   }));
