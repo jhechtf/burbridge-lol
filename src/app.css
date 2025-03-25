@@ -2,7 +2,11 @@
 
 @theme {
   --color-text-token: light-dark(var(--color-zinc-900), var(--color-zinc-100));
-  --color-background-token: light-dark(var(--color-slate-100), var(--color-zinc-900));
+  --color-background-token: light-dark(var(--color-slate-200), var(--color-zinc-900));
+  --color-primary-token: light-dark(var(--color-emerald-600), var(--color-emerald-400));
+  --color-on-primary-token: light-dark(var(--color-zinc-900), var(--color-zinc-900));
+  --color-surface-token: light-dark(var(--color-zinc-200), var(--color-zinc-800));
+  --color-on-surface-token: light-dark(var(--color-zinc-900), var(--color-zinc-100));
 }
 
 :root[data-theme="light"] {
@@ -23,10 +27,18 @@ html,body {
   font-family: var(--font-sans);
 }
 
+@media print {
+  body > nav,
+  body > footer {
+    display: none;
+  }
+}
+
 @layer base {
   h1, h2, h3, h4, h5, h6 {
     line-height: 1.25em;
     margin-block-end: 0.25em;
+    text-wrap: balance;
     > small {
       margin-inline-start: --spacing(4);
       color: 
