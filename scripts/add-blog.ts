@@ -1,4 +1,4 @@
-#!/usr/env/bin node
+#!/usr/env/bin -S deno run --allow-write
 import { writeFile, mkdir } from 'node:fs/promises';
 import { dirname} from 'node:path'
 

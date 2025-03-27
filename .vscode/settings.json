@@ -3,5 +3,9 @@
     "$/": "${workspaceRoot}/",
     "$pages/": "${workspaceRoot}/src/pages/",
     "$components/": "${workspaceRoot}/src/components/"
+  },
+  "[markdown]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "denoland.vscode-deno"
   }
 }
