@@ -2,19 +2,11 @@
 import MainLayout from "../layouts/main.astro";
 ---
 <MainLayout>
-  <section class="col-span-8 col-start-3 p-4" id="main-info">
+  <section class="@lg/main:col-span-8 @lg/main:col-start-3 p-4" id="main-info">
     <h1 class="title text-4xl text-center font-black mb-3 mt-4">Welcome</h1>
     <p>
       Welcome to my personal website. I write stories from time to time and I figured
       this will be the best place to put them all. 
     </p>
   </section>
-  <div class="col-start-11 col-span-2" id="side-info"></div>
 </MainLayout>
-
-<style>
-  p + p {
-    margin-top: theme("spacing.4");
-    text-indent: theme("spacing.5");
-  }
-</style>

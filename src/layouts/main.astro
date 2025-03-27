@@ -10,10 +10,8 @@ const { title = '' } = Astro.props;
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/raven-only.svg" />
     <link href="/raven-only.svg" rel="icon" type="image/svg+xml" media="(prefers-color-scheme: light)">
-
     <link href="/raven-only-color.svg" rel="icon" type="image/svg+xml" media="(prefers-color-scheme: dark)">
 
-    
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>Burbridge {title ? `- ${title}` : ''}</title>
@@ -21,7 +19,9 @@ const { title = '' } = Astro.props;
   <body class="dark:bg-zinc-800 dark:text-zinc-100">
     <div class="layout">
       <Navbar class="col-start-1 row-start-1 col-span-12 p-2 bg-green-500 text-zinc-900 sticky top-0" /> 
-      <slot />
+      <div class="content">
+        <slot />
+      </div>
       <Footer class="bg-black col-start-1 col-span-12 -row-end-1"/>
     </div>
   </body>
@@ -37,10 +37,10 @@ const { title = '' } = Astro.props;
     container-type: inline-size;
   }
 
-  @media screen and (max-width: var(--breakpoint-sm)) {
-    .layout {
-      background-color: orange;
-    }
+  .layout .content {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-template-rows: auto;
+    grid-column: span 12;
   }
-  
 </style>

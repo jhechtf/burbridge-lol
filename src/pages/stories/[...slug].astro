@@ -20,13 +20,20 @@ storiesCollection.sort((a, b) => a.data.chapter - b.data.chapter)
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 
+const readingTime = Math.ceil(entry.body.split(/\s+/).length /250);
+
 ---
 <Main>
-  <div class="md:col-span-8 md:col-start-3 col-span-10 col-start-2 pb-10">
+  <div class="lg:col-span-6 md:col-span-8 md:col-start-3 lg:col-start-4 col-span-12 px-6 md:px-0 pb-10">
     <h1 class="title text-4xl text-center font-sans font-bold my-4">{entry.data.title} </h1>
     <h2 class="chapter-title text-2xl text-center my-3 text-zinc-300">
       {entry.data.chapter === 0 ? 'Prologue': `Chapter ${entry.data.chapter}`}
     </h2>
+    <h3 class="text-center mb-6">
+      <small>
+        Approx. {readingTime} minutes
+      </small>
+    </h3>
     <Content />
   </div>
   <div class="hidden md:block md:col-span-2">
