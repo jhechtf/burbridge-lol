@@ -28,8 +28,8 @@ html,body {
 }
 
 @media print {
-  body > nav,
-  body > footer {
+  body > .layout > nav,
+  body > .layout > footer {
     display: none;
   }
 }

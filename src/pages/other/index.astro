@@ -19,8 +19,8 @@ const storyMaps = stories.reduce((all, cur) => {
 }, new Map<string, typeof stories>());
 
 ---
-<Main title="Hello">
-  <div class="@lg/main:col-span-6 @lg/main:col-start-3 space-y-4">
+<Main title="Other Pieces">
+  <div class="p-4 col-span-12 @lg/main:col-span-6 @lg/main:col-start-3 space-y-4">
     <h1 class="mt-4 col-span-12">Other stories</h1>
     <p class="lead">
       Sometimes I write things that aren't exactly blogs or stories. This is
@@ -45,12 +45,12 @@ const storyMaps = stories.reduce((all, cur) => {
       )
     }
   </div>
-  <aside class="@lg/main:col-span-2 @lg/main:pl-8">
+  <aside class="p-4 @lg/main:col-span-2 @lg/main:pl-8">
     <h3 class="mt-8 mb-4">
       By Tags
     </h3>
 
-    <div class="space-y-4 flex flex-wrap gap-2">
+    <div class="flex justify-start flex-wrap gap-2">
       {
         Array.from(storyMaps.keys())
           .map(k => (

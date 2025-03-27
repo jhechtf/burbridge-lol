@@ -17,6 +17,8 @@ const { Content } = await render(entry);
 
 const others = await getCollection('other', story => !story.data.draft && story.id !== entry.id);
 
+const readingTime = Math.ceil(entry.body.split(/\s+/).length / 250);
+
 ---
 
 <Main>
@@ -27,6 +29,7 @@ const others = await getCollection('other', story => !story.data.draft && story.
         <h2 class="mb-4">{entry.data.title} <small> by {entry.data.author}</small></h2>
       }
 
+      <p class="text-sm mb-8 font-">Approximate reading time: {readingTime} minute</p>
 
       <Content />
     </div>

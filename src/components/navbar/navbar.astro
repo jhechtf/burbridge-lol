@@ -4,7 +4,7 @@ const { class: className } = Astro.props;
 
 <nav class={`${className} grid grid-cols-subgrid`}>
   <div class="flex items-center">
-    <img src="/logo-full.svg" alt="Burbridge Logo" class="w-auto ml-10 mr-4" />
+    <img src="/logo-full.svg" alt="Burbridge Logo" class="w-auto ml-10 mr-4 h-[2rem]" />
   </div>
   <div class="grid grid-cols-subgrid col-span-3 col-end-13 gap-x-2">
     <div class="flex items-center justify-center">
@@ -22,7 +22,7 @@ const { class: className } = Astro.props;
 
 <style>
   a,a:link {
-    color: white;
+    color: var(--color-zinc-900);
   }
   a:hover {
     text-decoration: underline;
