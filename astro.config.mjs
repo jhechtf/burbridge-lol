@@ -7,10 +7,10 @@ export default defineConfig({
   env: {
     schema: {
       NODE_ENV: envField.string({ context: 'server', access: 'secret' }),
-    }
+    },
   },
 
   vite: {
-    plugins: [tailwindcss()]
-  }
+    plugins: [tailwindcss()],
+  },
 });

@@ -1,7 +1,11 @@
 {
-  "lnf.aliases": {
-    "$/": "${workspaceRoot}/",
-    "$pages/": "${workspaceRoot}/src/pages/",
-    "$components/": "${workspaceRoot}/src/components/"
-  }
+	"lnf.aliases": {
+		"$/": "${workspaceRoot}/",
+		"$pages/": "${workspaceRoot}/src/pages/",
+		"$components/": "${workspaceRoot}/src/components/"
+	},
+	"[astro]": {
+		"editor.defaultFormatter": "biomejs.biome",
+		"editor.formatOnSave": true
+	}
 }
