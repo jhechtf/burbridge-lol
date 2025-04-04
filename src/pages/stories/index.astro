@@ -1,8 +1,10 @@
 ---
-import MainLayout from "../../layouts/main.astro";
-import { getCollection } from "astro:content";
-const stories = await getCollection('stories', e => import.meta.env.NODE_ENV !== 'production' || !e.data.draft)
-  .then(st => st.sort((a, b) => a.data.chapter - b.data.chapter));
+import MainLayout from '../../layouts/main.astro';
+import { getCollection } from 'astro:content';
+const stories = await getCollection(
+  'stories',
+  (e) => import.meta.env.NODE_ENV !== 'production' || !e.data.draft,
+).then((st) => st.sort((a, b) => a.data.chapter - b.data.chapter));
 
 type Story = Awaited<ReturnType<typeof getCollection<'stories'>>>[number];
 
@@ -10,27 +12,30 @@ type MappedStory = {
   title: string;
   chapters: number;
   tags: Set<string>;
-    slug: string;
-}
+  slug: string;
+};
 
 type StoryGroup = Record<string, MappedStory>;
 
-const groupedStories = stories.reduce((acc, story) => {
-  if(!acc[story.data.title]) acc[story.data.title] = {
-    title: story.data.title,
-    chapters: 0,
-    tags: new Set(),
-    slug: story.id,
-  }
+const groupedStories = stories.reduce(
+  (acc, story) => {
+    if (!acc[story.data.title])
+      acc[story.data.title] = {
+        title: story.data.title,
+        chapters: 0,
+        tags: new Set(),
+        slug: story.id,
+      };
 
-  acc[story.data.title].chapters +=1;
-  for(const tag of story.data.tags) {
-    acc[story.data.title].tags.add(tag);
-  }
-  
-  return acc;
-}, {} as Record<string, MappedStory>);
+    acc[story.data.title].chapters += 1;
+    for (const tag of story.data.tags) {
+      acc[story.data.title].tags.add(tag);
+    }
 
+    return acc;
+  },
+  {} as Record<string, MappedStory>,
+);
 ---
 
 <MainLayout>

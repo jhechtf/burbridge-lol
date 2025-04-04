@@ -1,13 +1,13 @@
 ---
-import { getCollection } from "astro:content";
-import Main from "../../layouts/main.astro";
+import { getCollection } from 'astro:content';
+import Main from '../../layouts/main.astro';
 
-const stories = await getCollection("other", (f) => {
-  return import.meta.env.NODE_ENV !== "production" || !f.data.draft;
+const stories = await getCollection('other', (f) => {
+  return import.meta.env.NODE_ENV !== 'production' || !f.data.draft;
 });
 
 const storyMaps = stories.reduce((all, cur) => {
-  for(const tag of cur.data.tags) {
+  for (const tag of cur.data.tags) {
     let mapped = all.get(tag);
     if (mapped === undefined) {
       mapped = [];
@@ -17,7 +17,6 @@ const storyMaps = stories.reduce((all, cur) => {
   }
   return all;
 }, new Map<string, typeof stories>());
-
 ---
 <Main title="Other Pieces">
   <div class="p-4 col-span-12 @lg/main:col-span-6 @lg/main:col-start-3 space-y-4">

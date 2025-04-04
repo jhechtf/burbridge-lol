@@ -1,24 +1,29 @@
 ---
 import { getCollection, render } from 'astro:content';
-import Main from "../../layouts/main.astro";
+import Main from '../../layouts/main.astro';
 
 export async function getStaticPaths() {
-  const entries = await getCollection('other', (e) => import.meta.env.NODE_ENV !== 'production' || !e.data.draft);
-  return entries.map(entry => ({
-    params: { 
+  const entries = await getCollection(
+    'other',
+    (e) => import.meta.env.NODE_ENV !== 'production' || !e.data.draft,
+  );
+  return entries.map((entry) => ({
+    params: {
       slug: entry.id,
     },
-    props: { entry }
+    props: { entry },
   }));
 }
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 
-const others = await getCollection('other', story => !story.data.draft && story.id !== entry.id);
+const others = await getCollection(
+  'other',
+  (story) => !story.data.draft && story.id !== entry.id,
+);
 
 const readingTime = Math.ceil(entry.body.split(/\s+/).length / 250);
-
 ---
 
 <Main>
