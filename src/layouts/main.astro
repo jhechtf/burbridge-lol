@@ -1,7 +1,10 @@
 ---
 import Navbar from '../components/navbar/navbar.astro';
 import Footer from '../components/footer/footer.astro';
+import Posthog from '../components/posthog.astro';
+
 import '../app.css';
+import Cookie from '../components/cookies/cookie.astro';
 const { title = '' } = Astro.props;
 ---
 
@@ -15,6 +18,7 @@ const { title = '' } = Astro.props;
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>Burbridge {title ? `- ${title}` : ''}</title>
+    <Posthog />
   </head>
   <body class="dark:bg-zinc-800 dark:text-zinc-100">
     <div class="layout">
@@ -24,13 +28,14 @@ const { title = '' } = Astro.props;
       </div>
       <Footer class="bg-black col-start-1 col-span-12 -row-end-1"/>
     </div>
+    <Cookie />
   </body>
 </html>
 
 <style>
   .layout {
     display: grid;
-    grid-template-columns: repeat(12, 1fr);  
+    grid-template-columns: repeat(12, minmax(1px, 1fr));
     grid-template-rows: 70px 1fr minmax(100px, max-content);
     min-height: 100dvh;
     container-name: main;
