@@ -1,12 +1,62 @@
 ---
 import MainLayout from '../layouts/main.astro';
 ---
+
 <MainLayout>
-  <section class="@lg/main:col-span-8 @lg/main:col-start-3 p-4" id="main-info">
-    <h1 class="title text-4xl text-center font-black mb-3 mt-4">Welcome</h1>
+  <section
+    class="@lg/main:col-span-8 @lg/main:col-start-3 p-4 col-span-12"
+    id="main-info"
+  >
+    <h1 class="title text-4xl text-center font-black mb-3 mt-4 text-primary-token">Welcome</h1>
+    <p class="lead">
+      Welcome to my personal website. I write stories from time to time and I
+      figured this will be the best place to put them all.
+    </p>
+
+    <p class="lead">In general I write 3 different kinds of stories:</p>
+    <dl>
+      <dt>Stories</dt>
+      <dd>
+        These are longer running things that I write down when the mood strikes
+        me. I tend to have these thought out pretty far ahead, I just have issue
+        writing them down.
+      </dd>
+
+      <dt>Blogs</dt>
+      <dd>
+        Sometimes you just have to dump your brain out about a topic. This could
+        be something like a family update, or other stuff that doesn't really
+        belong on my professional site.
+      </dd>
+
+      <dt>Other</dt>
+      <dd>
+        I frequently have small things that I come to me. They aren't a story,
+        but they're not really a blog-level brain dump. Often times I suppose
+        these could be called &quot;poetry&quot; but they never feel like poems
+        to me (though perhaps my 6th grade English teacher would disagree)
+      </dd>
+    </dl>
     <p>
-      Welcome to my personal website. I write stories from time to time and I figured
-      this will be the best place to put them all. 
+      You can check out these things in the navbar up top. My discord is linked
+      if you would like to join to talk about a story or a particular piece you
+      enjoyed or even hated.
     </p>
   </section>
 </MainLayout>
+
+<style>
+  p + p {
+    margin-block-start: theme("spacing.4");
+    text-indent: theme("spacing.5");
+  }
+  dl {
+    margin-block: calc(var(--spacing) * 8);
+    dt {
+      font-weight: var(--font-weight-bold);
+      font-size: var(--text-xl);
+      margin-block: calc(var(--spacing) * 4) calc(var(--spacing) * 2);
+      color: var(--color-primary-token);
+    }
+  }
+</style>

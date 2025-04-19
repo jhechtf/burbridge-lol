@@ -1,16 +1,18 @@
-#!/usr/env/bin node
+#!/usr/env/bin -S deno run --allow-write
 import { writeFile, mkdir } from 'node:fs/promises';
 import { dirname } from 'node:path';
 
 const today = new Date();
 
+type DatePartObject = Record<'year' | 'month' | 'day' | 'hour' | 'minute' | 'second', string>;
+
 /**
  *
  * @param {Intl.DateTimeFormatPart[]} parts
  */
-function partsToObject(parts) {
-  /** @type {Record<'year' | 'month' | 'day' | 'hour' | 'minute' | 'second', string>} */
-  const obj = {};
+function partsToObject(parts): DatePartObject {
+  /** @type {} */
+  const obj = {} as DatePartObject;
   for (const part of parts) {
     if (part.type !== 'literal') {
       obj[part.type] = part.value;
