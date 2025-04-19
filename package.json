@@ -8,7 +8,8 @@
 		"build": "astro check && astro build",
 		"preview": "astro preview",
 		"astro": "astro",
-		"format": "biome format"
+		"format": "biome format",
+    "new:blog": "deno run --allow-write --allow-read scripts/add-blog.ts"
 	},
 	"dependencies": {
 		"@astrojs/check": "^0.9.4",
