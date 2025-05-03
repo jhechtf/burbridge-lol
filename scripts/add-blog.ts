@@ -1,4 +1,5 @@
-#!/usr/env/bin -S deno run --allow-write
+#!/usr/bin/env -S deno run --allow-write --allow-read
+
 import { writeFile, mkdir } from 'node:fs/promises';
 import { dirname } from 'node:path';
 
@@ -8,10 +9,9 @@ type DatePartObject = Record<'year' | 'month' | 'day' | 'hour' | 'minute' | 'sec
 
 /**
  *
- * @param {Intl.DateTimeFormatPart[]} parts
+ * @param parts
  */
 function partsToObject(parts): DatePartObject {
-  /** @type {} */
   const obj = {} as DatePartObject;
   for (const part of parts) {
     if (part.type !== 'literal') {
