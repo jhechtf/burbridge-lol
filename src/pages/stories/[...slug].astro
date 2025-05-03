@@ -13,14 +13,18 @@ export async function getStaticPaths() {
   }));
 }
 
-const storiesCollection = await getCollection('stories', (e) => {
-  return import.meta.env.NODE_ENV !== 'production' || !e.data.draft;
-});
+const { entry } = Astro.props;
+// Need this to show the correct related chapters
+const [storyId] = entry.id.split('/');
 
-// Sort the items by chapter
+const storiesCollection = await getCollection('stories', e => 
+  // We need stories that start with the same path name AND are either published, or we are in development mode
+  e.id.startsWith(storyId) && (import.meta.env.NODE_ENV !== 'production' || !e.data.draft)
+);
+
+// Sort the items by chapter, just to be sure.
 storiesCollection.sort((a, b) => a.data.chapter - b.data.chapter);
 
-const { entry } = Astro.props;
 const { Content } = await render(entry);
 
 const readingTime = Math.ceil(entry.body.split(/\s+/).length / 250);
