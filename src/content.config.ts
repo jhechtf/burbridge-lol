@@ -9,6 +9,7 @@ const storiesCollection = defineCollection({
     tags: z.array(z.string()),
     chapter: z.number().min(0),
     draft: z.boolean().default(true),
+    chapterTitle: z.string().optional(),
   }),
   // @ts-ignore I know this is hacky I don't care
   name: 'Stories',
