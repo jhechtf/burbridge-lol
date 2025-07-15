@@ -51,6 +51,7 @@ body {
 }
 
 @layer base {
+
 	h1,
 	h2,
 	h3,
@@ -58,6 +59,7 @@ body {
 	h5,
 	h6 {
 		line-height: 1.25em;
+		margin-block-start: --spacing(6);
 		margin-block-end: 0.25em;
 		text-wrap: balance;
 		> small {
@@ -75,18 +77,29 @@ body {
 	}
 
 	h2 {
-		font-size: var(--text-xl);
+		font-size: var(--text-2xl);
 		font-weight: var(--font-weight-extrabold);
 	}
 
+	h2:where(.content > *) {
+		padding-block-end: 0.2em;
+		border-bottom: 1px light-dark(var(--color-zinc-700), var(--color-zinc-300)) dashed;
+	}
+
 	h3 {
-		font-size: var(--text-lg);
+		font-size: var(--text-xl);
 		font-weight: var(--font-weight-bold);
+		text-decoration: underline;
 	}
 
 	h4 {
-		font-size: var(--text-md);
+		font-size: var(--text-lg);
 		font-weight: var(--font-weight-semibold);
+		text-decoration: underline;
+	}
+
+	h5 {
+		font-weight: var(--font-weight-extralight);
 		text-decoration: underline;
 	}
 
@@ -94,6 +107,11 @@ body {
     margin-block-start: --spacing(8);
     margin-block-end: --spacing(8);
   }
+
+	ol ol,
+	ol ul {
+		margin-inline-start: 1rem;
+	}
 
 	.lead {
 		font-size: 1.25em;
@@ -103,5 +121,14 @@ body {
   a {
     color: light-dark(var(--color-sky-700), var(--color-sky-400));
   }
+
+	blockquote {
+		--background-color: var(--color-sky-600);
+		background-color: color-mix(in oklch, var(--background-color) 40%, transparent);
+		margin-block: --spacing(4);
+		padding: --spacing(4);
+		border: calc(var(--spacing) / 2) solid var(--background-color);
+		border-radius:  var(--radius-md);
+	}
 
 }

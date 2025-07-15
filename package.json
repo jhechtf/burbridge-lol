@@ -9,14 +9,15 @@
 		"preview": "astro preview",
 		"astro": "astro",
 		"format": "biome format",
-    "new:blog": "deno run --allow-write --allow-read scripts/add-blog.ts"
+		"new:blog": "deno run --allow-write --allow-read scripts/add-blog.ts"
 	},
 	"dependencies": {
 		"@astrojs/check": "^0.9.4",
-		"@astrojs/db": "^0.14.5",
-		"@astrojs/tailwind": "^5.1.4",
+		"@astrojs/db": "^0.15.0",
+		"@astrojs/tailwind": "^6.0.2",
 		"@tailwindcss/vite": "^4.0.15",
-		"astro": "^5.1.1",
+		"astro": "^5.12.3",
+		"remark-definition-list": "^2.0.0",
 		"tailwindcss": "^4.0.15",
 		"typescript": "^5.5.4"
 	},
