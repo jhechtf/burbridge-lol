@@ -7,7 +7,7 @@ const storiesCollection = defineCollection({
     author: z.string(),
     title: z.string(),
     tags: z.array(z.string()),
-    chapter: z.number().min(0),
+    chapter: z.number().min(-1),
     draft: z.boolean().default(true),
   }),
   // @ts-ignore I know this is hacky I don't care

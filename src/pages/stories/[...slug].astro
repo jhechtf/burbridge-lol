@@ -17,9 +17,12 @@ const { entry } = Astro.props;
 // Need this to show the correct related chapters
 const [storyId] = entry.id.split('/');
 
-const storiesCollection = await getCollection('stories', e => 
-  // We need stories that start with the same path name AND are either published, or we are in development mode
-  e.id.startsWith(storyId) && (import.meta.env.NODE_ENV !== 'production' || !e.data.draft)
+const storiesCollection = await getCollection(
+  'stories',
+  (e) =>
+    // We need stories that start with the same path name AND are either published, or we are in development mode
+    e.id.startsWith(storyId) &&
+    (import.meta.env.NODE_ENV !== 'production' || !e.data.draft),
 );
 
 // Sort the items by chapter, just to be sure.
@@ -27,10 +30,10 @@ storiesCollection.sort((a, b) => a.data.chapter - b.data.chapter);
 
 const { Content } = await render(entry);
 
-const readingTime = Math.ceil(entry.body.split(/\s+/).length / 250);
+const readingTime = Math.ceil(entry.body?.split(/\s+/).length / 250);
 ---
 <Main>
-  <div class="lg:col-span-6 md:col-span-8 md:col-start-3 lg:col-start-4 col-span-12 px-6 md:px-0 pb-10">
+  <div class="lg:col-span-6 md:col-span-8 md:col-start-3 lg:col-start-4 col-span-12 px-6 md:px-0 pb-10 main">
     <h1 class="title text-4xl text-center font-sans font-bold my-4">{entry.data.title} </h1>
     <h2 class="chapter-title text-2xl text-center my-3 text-zinc-300">
       {entry.data.chapter === 0 ? 'Prologue': `Chapter ${entry.data.chapter}`}
@@ -40,7 +43,9 @@ const readingTime = Math.ceil(entry.body.split(/\s+/).length / 250);
         Approx. {readingTime} minutes
       </small>
     </h3>
-    <Content />
+    <div class="content">
+      <Content />
+    </div>
   </div>
   <div class="hidden md:block md:col-span-2">
     <ol class="mt-9 ml-4 sticky top-20">
@@ -57,10 +62,33 @@ const readingTime = Math.ceil(entry.body.split(/\s+/).length / 250);
   p {
     line-height: theme('spacing.6');
   }
+  * + p {
+    margin-top: theme('spacing.2');
+  }
   p + p {
     text-indent: theme('spacing.6');
     margin-top: theme('spacing.2');
     line-height: theme('spacing.6');
+  }
+
+  .content .content ol li {
+    list-style-type: decimal;
+  }
+
+  .content {
+    dl {
+
+      dt {
+        font-weight: var(--font-weight-semibold);
+        font-size: var(--text-md);
+
+      }
+
+      dd {
+        margin-inline-start: calc(var(--spacing) * 5);
+      }
+
+    }
   }
   
 </style>
