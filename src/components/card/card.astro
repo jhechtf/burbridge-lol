@@ -1,0 +1,49 @@
+---
+const { class: className = '' } = Astro.props;
+---
+<div class={["card", className].join(' ')}>
+  {
+    Astro.slots.has('header') && (
+    <header>
+      <slot name="header" />
+    </header>
+    )
+  }
+  
+  <slot />
+
+  {
+    Astro.slots.has('footer') && (
+      <footer>
+        <slot name="footer" />
+      </footer>
+    )
+  }
+</div>
+
+<style>
+  @reference '#app.css';
+
+  .card {
+    --_radius: var(--radius-lg);
+
+    border: 1px solid var(--color-zinc-300);
+    border-radius: var(--_radius);
+
+    header:not(:has(img)) {
+      padding: --spacing(4);
+    }
+
+    header:has(img) {
+      img {
+        aspect-ratio: var(--aspect-video);
+        width: 100%;
+        border-radius: var(--_radius) var(--_radius) 0 0;
+      }
+    }
+
+    & > :not(header:has(img)) {
+      padding: --spacing(4);
+    }
+  }
+</style>

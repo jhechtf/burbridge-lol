@@ -1,41 +1,43 @@
 ---
 import MainLayout from '../../layouts/main.astro';
-import { getCollection } from 'astro:content';
-const stories = await getCollection(
-  'stories',
-  (e) => import.meta.env.NODE_ENV !== 'production' || !e.data.draft,
-).then((st) => st.sort((a, b) => a.data.chapter - b.data.chapter));
+import { listStories } from '../../lib/stories';
+const stories = await listStories();
+// import { getCollection } from 'astro:content';
+// const stories = await getCollection(
+//   'stories',
+//   (e) => import.meta.env.NODE_ENV !== 'production' || !e.data.draft,
+// ).then((st) => st.sort((a, b) => a.data.chapter - b.data.chapter));
 
-type Story = Awaited<ReturnType<typeof getCollection<'stories'>>>[number];
+// type Story = Awaited<ReturnType<typeof getCollection<'stories'>>>[number];
 
-type MappedStory = {
-  title: string;
-  chapters: number;
-  tags: Set<string>;
-  slug: string;
-};
+// type MappedStory = {
+//   title: string;
+//   chapters: number;
+//   tags: Set<string>;
+//   slug: string;
+// };
 
-type StoryGroup = Record<string, MappedStory>;
+// type StoryGroup = Record<string, MappedStory>;
 
-const groupedStories = stories.reduce(
-  (acc, story) => {
-    if (!acc[story.data.title])
-      acc[story.data.title] = {
-        title: story.data.title,
-        chapters: 0,
-        tags: new Set(),
-        slug: story.id,
-      };
+// const groupedStories = stories.reduce(
+//   (acc, story) => {
+//     if (!acc[story.data.title])
+//       acc[story.data.title] = {
+//         title: story.data.title,
+//         chapters: 0,
+//         tags: new Set(),
+//         slug: story.id,
+//       };
 
-    acc[story.data.title].chapters += 1;
-    for (const tag of story.data.tags) {
-      acc[story.data.title].tags.add(tag);
-    }
+//     acc[story.data.title].chapters += 1;
+//     for (const tag of story.data.tags) {
+//       acc[story.data.title].tags.add(tag);
+//     }
 
-    return acc;
-  },
-  {} as Record<string, MappedStory>,
-);
+//     return acc;
+//   },
+//   {} as Record<string, MappedStory>,
+// );
 ---
 
 <MainLayout>
@@ -46,28 +48,30 @@ const groupedStories = stories.reduce(
     </p>
     <main>
       {
-        Object.entries(groupedStories)
-          .map(([title, storyItem]) => (
-            <article class="border p-3 rounded-md">
-              <a href={`/stories/${storyItem.slug}`}>
-                <header class="flex justify-between items-center">
-                  <h2 class="title text-2xl font-black">
-                    {title}
-                    <small>
-                      &ndash; {storyItem.chapters} Chapter(s)
-                    </small>
-                  </h2>
-                  <div class="flex gap-3">
-                    {
-                      Array.from(storyItem.tags).map(tag=> (
-                        <span class="text-zinc-700 bg-blue-300 text-sm p-2 rounded-md">{tag}</span>
-                      ))
-                    }
-                  </div>
-                </header>
-              </a>
-            </article>
-          ))
+        stories.data &&
+        stories.data.map(story => (
+
+        <article class="border p-3 rounded-md">
+          <a href={`/stories/${story.slug}/${story.chapters[0]?.slug}`}>
+              <header class="flex justify-between items-center">
+                <h2 class="title text-2xl font-black">
+                  {story.title}
+                  <small>
+                    &ndash; {story.chapters.length} Chapter(s)
+                  </small>
+                </h2>
+              </header>
+            </a>
+            <p>{story.synopsis}</p>
+          </article>
+        ))
+      }
+      {
+        stories.data && stories.data.length === 0 && (
+          <div class="text-center mt-6">
+            There are currently no stories available
+          </div>
+        )
       }
     </main>
   </section>

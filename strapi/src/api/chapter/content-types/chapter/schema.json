@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "chapters",
+  "info": {
+    "singularName": "chapter",
+    "pluralName": "chapters",
+    "displayName": "chapter"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "chapter_title": {
+      "type": "string"
+    },
+    "chapter_number": {
+      "type": "integer",
+      "required": true,
+      "default": 1
+    },
+    "contents": {
+      "type": "blocks",
+      "required": true
+    },
+    "story": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::story.story",
+      "inversedBy": "chapters"
+    },
+    "slug": {
+      "type": "string",
+      "required": true,
+      "regex": "[a-z0-9]+(\\-[a-z0-9])*"
+    }
+  }
+}
