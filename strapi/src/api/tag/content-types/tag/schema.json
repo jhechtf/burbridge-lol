@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tags",
+  "info": {
+    "singularName": "tag",
+    "pluralName": "tags",
+    "displayName": "tag"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "display": {
+      "type": "string",
+      "required": true
+    },
+    "tag_id": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    },
+    "stories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::story.story",
+      "inversedBy": "tags"
+    },
+    "blogs": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::blog.blog",
+      "mappedBy": "tags"
+    },
+    "others": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::other.other",
+      "mappedBy": "tags"
+    }
+  }
+}

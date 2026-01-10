@@ -1,42 +1,36 @@
 ---
-import { getCollection, render } from 'astro:content';
 import Main from '../../layouts/main.astro';
+import { paginateFunction } from '$lib/pagination';
+import { listOthers } from '$lib/other';
+import Contents from '$components/contents/contents.astro';
 
 export async function getStaticPaths() {
-  const entries = await getCollection(
-    'other',
-    (e) => import.meta.env.NODE_ENV !== 'production' || !e.data.draft,
-  );
-  return entries.map((entry) => ({
+  const others = await paginateFunction(listOthers);
+  return others.map((m) => ({
     params: {
-      slug: entry.id,
+      slug: m.slug,
     },
-    props: { entry },
+    props: {
+      other: m,
+    },
   }));
 }
 
-const { entry } = Astro.props;
-const { Content } = await render(entry);
+const { other } = Astro.props;
 
-const others = await getCollection(
-  'other',
-  (story) => !story.data.draft && story.id !== entry.id,
-);
-
-const readingTime = Math.ceil(entry.body.split(/\s+/).length / 250);
+const others = [];
 ---
 
 <Main>
   <div class="wrapper col-span-12 @lg/main:col-span-8 @lg/main:col-start-3 mt-8 grid grid-cols-subgrid">
     <div class="@lg/main:col-span-6 col-span-12 p-4">
       {
-        entry.data.title && 
-        <h2 class="mb-4">{entry.data.title} <small> by {entry.data.author}</small></h2>
+        other.title || 
+        <h2 class="mb-4">{other.title}</h2>
       }
 
-      <p class="text-sm mb-8 font-">Approximate reading time: {readingTime} minute</p>
+      <Contents contents={other.contents} />
 
-      <Content />
     </div>
     <aside class="@lg/main:col-span-2 p-4">
       <h4>Other stories</h4>
