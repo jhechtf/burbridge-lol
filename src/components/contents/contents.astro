@@ -1,0 +1,21 @@
+---
+const { contents } = Astro.props;
+import Header from './header.astro';
+import Paragraph from './paragraph.astro';
+import Text from './text.astro';
+const contentMap = {
+  paragraph: Paragraph,
+  text: Text,
+  heading: Header,
+};
+---
+
+{
+  contents.map(c => {
+    const El = contentMap[c.type];
+    if(!El) return null;
+    return (
+      <El contents={c} />
+    )
+  })
+}
