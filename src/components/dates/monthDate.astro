@@ -1,0 +1,14 @@
+---
+export interface Props {
+  /** Valid ISO date-time string */
+  timestamp: string;
+}
+const { timestamp } = Astro.props;
+const dateObj = new Date(timestamp);
+---
+
+{dateObj.toLocaleDateString(undefined, {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+})}

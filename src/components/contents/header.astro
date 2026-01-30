@@ -1,0 +1,9 @@
+---
+import Contents from './contents.astro';
+
+const { contents } = Astro.props;
+const CustomTag = contents.type === 'heading' ? `h${contents.level}` : null;
+---
+<CustomTag>
+  <Contents contents={contents.children} />
+</CustomTag>

@@ -1,0 +1,15 @@
+---
+const { contents } = Astro.props;
+---
+{
+  contents.type === 'text' &&
+  contents.text.split('\n').map((line, index, arr) => {
+    let res = line;
+
+    if(contents.italic) res = (<em>{res}</em>);
+    if(contents.bold) res = (<strong>{res}</strong>);
+    if(contents.underline) res = (<span class="underline">{res}</span>);
+
+    return (<>{res}{index !== arr.length && arr.length > 1 && <br />}</>);
+  })
+}

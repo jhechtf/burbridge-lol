@@ -1,0 +1,13 @@
+---
+import Contents from './contents.astro';
+const { contents } = Astro.props;
+---
+
+{
+  contents.type === 'paragraph' &&
+  (
+    <p>
+      <Contents contents={contents.children} />
+    </p>
+  )
+}
