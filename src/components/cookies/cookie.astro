@@ -16,8 +16,9 @@
     if(!document.cookie.includes('cookieConsent=')) {
       bannerEl.classList.remove('hidden');
       bannerEl.classList.add('in');
+
       bannerEl.querySelector('[type=button]').addEventListener('click', () => {
-        document.cookie = 'cookieConsent='+ new Date().toISOString()+';expires='+new Date('2026-01-01');
+        document.cookie = 'cookieConsent='+ new Date().toISOString()+';expires='+new Date('2027-01-01');
         bannerEl.classList.replace('flex', 'hidden')
       });
     } 

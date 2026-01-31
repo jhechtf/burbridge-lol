@@ -104,4 +104,18 @@ body {
     color: light-dark(var(--color-sky-700), var(--color-sky-400));
   }
 
+	[class|="stack"] {
+		--_spacing: var(--spacing, --spacing(4));
+		display: flex;
+		gap: var(--_spacing);
+	}
+
+	.stack-horizontal {
+		flex-direction: row;
+	}
+
+	.stack-vertical {
+		flex-direction: column;
+	}
+
 }
