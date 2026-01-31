@@ -2,6 +2,7 @@
 
 # Adjust NODE_VERSION as desired
 ARG NODE_VERSION=20.18.0
+ARG STRAPI_API
 FROM node:${NODE_VERSION}-slim as base
 
 LABEL fly_launch_runtime="Astro"
@@ -19,6 +20,8 @@ RUN npm install -g pnpm@$PNPM_VERSION
 
 # Throw-away build stage to reduce size of final image
 FROM base as build
+
+ENV STRAPI_API=${STRAPI_API}
 
 # Install packages needed to build node modules
 RUN apt-get update -qq && \
