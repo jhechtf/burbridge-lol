@@ -1,8 +1,8 @@
 ---
-import Main from '../../layouts/main.astro';
-import { paginateFunction } from '$lib/pagination';
-import { listOthers } from '$lib/other';
 import Contents from '$components/contents/contents.astro';
+import { listOthers } from '$lib/other';
+import { paginateFunction } from '$lib/pagination';
+import Main from '../../layouts/main.astro';
 
 export async function getStaticPaths() {
   const others = await paginateFunction(listOthers);

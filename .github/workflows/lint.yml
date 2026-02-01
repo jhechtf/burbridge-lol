@@ -25,4 +25,6 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run BiomeJS
-        run: pnpm biome
+        run: |
+          cd web
+          pnpm biome ci

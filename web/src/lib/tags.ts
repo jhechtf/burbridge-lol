@@ -1,10 +1,10 @@
 import type { ApiTagTag } from '$types/contentTypes';
-import { pagination, strapiUrl, type StrapiResponse } from './pagination';
+import { type StrapiResponse, pagination, strapiUrl } from './pagination';
 
 export async function getAllEntitiesByTag(tag: string) {
   const url = new URL(`${strapiUrl}/api/tags?populate=*`);
-  let page;
-  const tags = [];
+  let page: StrapiResponse<ApiTagTag['attributes']>;
+  const tags: ApiTagTag['attributes'][] = [];
 
   do {
     page = await fetch(url).then((r) => r.json());

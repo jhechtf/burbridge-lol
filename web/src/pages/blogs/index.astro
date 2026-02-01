@@ -1,10 +1,10 @@
 ---
+import Card from '$components/card/card.astro';
 import MonthDate from '$components/dates/monthDate.astro';
 import MainLayout from '$layouts/main.astro';
 import { listBlogs } from '$lib/blogs';
 import { paginateFunction, strapiUrl } from '$lib/pagination';
 import type { ApiBlogBlog as ApiBlogs } from '$types/contentTypes';
-import Card from '$components/card/card.astro';
 
 const blogs = await listBlogs();
 // We have to make it so that all of the blogs get populated to have an archive on the sidebar.

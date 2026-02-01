@@ -1,5 +1,5 @@
-import { defineCollection, z } from "astro:content";
-import { glob } from "astro/loaders";
+import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
 
 // const storiesCollection = defineCollection({
 //   loader: glob({ pattern: '**/*.md', base: './src/content/stories' }),
@@ -15,7 +15,7 @@ import { glob } from "astro/loaders";
 // });
 
 const otherCollection = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/other" }),
+  loader: glob({ pattern: '**/*.md', base: './src/content/other' }),
   schema: z.object({
     author: z.string(),
     title: z.string(),
@@ -23,7 +23,7 @@ const otherCollection = defineCollection({
     draft: z.boolean().default(true),
   }),
   // @ts-ignore I know this is hacky I don't care
-  name: "Others",
+  name: 'Others',
 });
 
 export const collections = {

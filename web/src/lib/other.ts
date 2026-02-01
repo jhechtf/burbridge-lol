@@ -1,5 +1,5 @@
 import type { ApiOtherOther } from '$types/contentTypes';
-import { strapiUrl, type StrapiResponse } from './pagination';
+import { type StrapiResponse, strapiUrl } from './pagination';
 
 export async function listOthers(page = 1, draft = import.meta.env.DEV) {
   const url = new URL(

@@ -1,7 +1,7 @@
 ---
-import Main from '../../layouts/main.astro';
 import { listOthers } from '$lib/other';
 import { getAllTagsForType } from '$lib/tags';
+import Main from '../../layouts/main.astro';
 
 const others = await listOthers();
 const othersByTag = await getAllTagsForType('others').then((r) => {

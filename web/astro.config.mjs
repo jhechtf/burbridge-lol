@@ -14,10 +14,10 @@ export default defineConfig({
     plugins: [tailwindcss()],
     resolve: {
       alias: {
-        '$components': '/src/components',
-        '$layouts': '/src/layouts',
-        '$lib': '/src/lib',
-        '$types': '/src/types',
+        $components: '/src/components',
+        $layouts: '/src/layouts',
+        $lib: '/src/lib',
+        $types: '/src/types',
       },
     },
   },

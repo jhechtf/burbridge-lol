@@ -1,12 +1,12 @@
 ---
-import Main from '../../layouts/main.astro';
-import { listStories } from '../../lib/stories';
-import { getChapterFromFullSlug } from '../../lib/chapters';
 import Contents from '../../components/contents/contents.astro';
+import Main from '../../layouts/main.astro';
+import { getChapterFromFullSlug } from '../../lib/chapters';
+import { listStories } from '../../lib/stories';
 
 export async function getStaticPaths() {
-  let page;
-  const stories = [];
+  let page: Awaited<ReturnType<typeof listStories>>;
+  const stories: Awaited<ReturnType<typeof listStories>> = [];
   do {
     page = await listStories((page?.meta?.page ?? 0) + 1);
     stories.push(...page.data);
@@ -17,7 +17,6 @@ export async function getStaticPaths() {
       story.chapters.flatMap(async (chapter) => {
         const slug = `${story.slug}/${chapter.slug}`;
         const contents = await getChapterFromFullSlug(slug);
-        console.info('CONTENTS', contents);
         return {
           params: { slug },
           props: {

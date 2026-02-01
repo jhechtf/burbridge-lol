@@ -22,7 +22,7 @@ export async function getChapterFromFullSlug(
   const res = await fetch(url).then((r) => r.json());
 
   if (res.meta.total !== 1) {
-    console.error('HEADS UP, DUPLICATES FOR ' + slug);
+    console.error(`HEADS UP, DUPLICATES FOR ${slug}`);
     console.error(res);
   }
 
