@@ -9,6 +9,9 @@ const { contents } = Astro.props;
     if(contents.italic) res = (<em>{res}</em>);
     if(contents.bold) res = (<strong>{res}</strong>);
     if(contents.underline) res = (<span class="underline">{res}</span>);
+    if(contents.code) res = (<blockquote>{res}</blockquote>);
+    if(contents.strikethrough && contents.text === 'horizontal') res = (<hr />);
+    if(contents.strikethrough && contents.text !== 'horizontal') res = (<s>{res}</s>)
 
     return (<>{res}{index !== arr.length && arr.length > 1 && <br />}</>);
   })

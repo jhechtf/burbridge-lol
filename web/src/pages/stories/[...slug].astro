@@ -67,12 +67,21 @@ const { slug } = Astro.params;
 
 <style is:global>
   p {
-    line-height: theme('spacing.6');
+    line-height: theme('spacing.4');
   }
   p + p {
     text-indent: theme('spacing.6');
-    margin-top: theme('spacing.2');
+    margin-top: theme('spacing.4');
     line-height: theme('spacing.6');
+  }
+
+  blockquote {
+    @apply italic;
+    padding-inline: 0.75rem;
+  }
+
+  hr {
+    color: color-mix(in srgb, transparent 50%, currentColor);
   }
 
 </style>

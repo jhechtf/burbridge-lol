@@ -8,8 +8,12 @@
 		"build": "astro build",
 		"preview": "astro preview",
 		"astro": "astro",
-		"format": "biome format",
-		"new:blog": "deno run --allow-write --allow-read scripts/add-blog.ts"
+		"format": "biome format . --write",
+		"format:check": "biome format .",
+		"new:blog": "deno run --allow-write --allow-read scripts/add-blog.ts",
+		"lint": "biome lint .",
+		"lint:fix": "biome lint --fix .",
+		"ci": "biome ci"
 	},
 	"dependencies": {
 		"@astrojs/check": "^0.9.4",
