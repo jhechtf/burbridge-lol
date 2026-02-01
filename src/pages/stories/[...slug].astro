@@ -17,6 +17,7 @@ export async function getStaticPaths() {
       story.chapters.flatMap(async (chapter) => {
         const slug = `${story.slug}/${chapter.slug}`;
         const contents = await getChapterFromFullSlug(slug);
+        console.info('CONTENTS', contents);
         return {
           params: { slug },
           props: {
