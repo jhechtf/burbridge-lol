@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --remote-only
+      - run: flyctl deploy --local-only --build-arg strapi_url=${STRAPI_API}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
           STRAPI_API: ${{ secrets.STRAPI_API }}
