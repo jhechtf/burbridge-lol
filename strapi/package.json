@@ -22,7 +22,9 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.30.3",
-    "styled-components": "^6.3.8"
+    "strapi-plugin-rich-text-blocks-extended": "^1.2.0",
+    "styled-components": "^6.3.8",
+    "turbo": "^2.8.1"
   },
   "devDependencies": {
     "@types/node": "^20.19.30",

@@ -1,3 +1,7 @@
+packages:
+  - strapi
+  - web
+
 ignoredBuiltDependencies:
   - core-js-pure
   - sharp
