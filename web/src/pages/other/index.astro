@@ -1,0 +1,56 @@
+---
+import { listOthers } from '$lib/other';
+import { getAllTagsForType } from '$lib/tags';
+import Main from '../../layouts/main.astro';
+
+const others = await listOthers();
+const othersByTag = await getAllTagsForType('others').then((r) => {
+  return r.filter((t) => t.others && t.others.length > 0);
+});
+console.info(others);
+---
+<Main title="Other Pieces">
+  <div class="p-4 col-span-12 @lg/main:col-span-6 @lg/main:col-start-3 space-y-4">
+    <h1 class="mt-4 col-span-12">Other stories</h1>
+    <p class="lead">
+      Sometimes I write things that aren't exactly blogs or stories. This is
+      where those pieces will live.
+    </p>
+    {
+      others.data.length === 0 && (
+        <div>No other pieces exist at this moment in time</div>
+      )
+    }
+    {
+      others.data.length > 0 && (
+        <div class="space-y-5">
+          {others.data.map((story) => (
+            <h3 class="bg-slate-800 p-4 rounded-md">
+              <a href={`/other/${story.slug}`}>
+                {story.title}
+              </a>
+            </h3>
+          ))}
+        </div>
+      )
+    }
+
+  </div>
+  <aside class="p-4 @lg/main:col-span-2 @lg/main:pl-8">
+    <h3 class="mt-8 mb-4">
+      By Tags
+    </h3>
+
+    <div class="flex justify-start flex-wrap gap-2">
+      {
+        othersByTag.length > 0 
+          ? othersByTag.map(tag => (
+            <div class="pill bg-sky-700 px-3 py-1 rounded-full">
+              {tag.display}
+            </div>
+          ))
+          : (<p>No Tags yet</p>)
+      }
+    </div>
+  </aside>
+</Main>

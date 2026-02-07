@@ -1,0 +1,53 @@
+---
+import Contents from '$components/contents/contents.astro';
+import { listOthers } from '$lib/other';
+import { paginateFunction } from '$lib/pagination';
+import Main from '../../layouts/main.astro';
+
+export async function getStaticPaths() {
+  const others = await paginateFunction(listOthers);
+  return others.map((m) => ({
+    params: {
+      slug: m.slug,
+    },
+    props: {
+      other: m,
+    },
+  }));
+}
+
+const { other } = Astro.props;
+
+const others = [];
+---
+
+<Main>
+  <div class="wrapper col-span-12 @lg/main:col-span-8 @lg/main:col-start-3 mt-8 grid grid-cols-subgrid">
+    <div class="@lg/main:col-span-6 col-span-12 p-4">
+      {
+        other.title &&
+        <h2 class="mb-4">{other.title}</h2>
+      }
+
+      <Contents contents={other.contents} />
+
+    </div>
+    <aside class="@lg/main:col-span-2 p-4">
+      <h4>Other stories</h4>
+      {
+        others.length === 0 && (
+          <p>
+            No other stories available at the moment
+          </p>
+        )
+      }
+    </aside>
+  </div>
+</Main>
+
+
+<style is:global>
+  p + p {
+    margin-block-start: 0.75rem;
+  }
+</style>
