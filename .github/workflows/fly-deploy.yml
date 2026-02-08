@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: superfly/flyctl-actions/setup-flyctl@master
       # need local only because otherwise it doesn't pass this arg correctly.
-      - run: flyctl deploy --local-only --build-arg strapi_url=${STRAPI_API}
+      - run: cd web && flyctl deploy --local-only --build-arg strapi_url=${STRAPI_API}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
           STRAPI_API: ${{ secrets.STRAPI_API }}
