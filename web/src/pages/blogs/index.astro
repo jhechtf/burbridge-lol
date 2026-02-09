@@ -48,6 +48,8 @@ const allBlogs = await paginateFunction<ApiBlogs['attributes']>(listBlogs).then(
         </Card>
       ))}
 
+      {blogs.data.length === 0 && (<p class="col-start-1 -col-end-1">No blogs; check back soon!</p>)}
+
     </main>
     <aside class="bg-zinc-700 rounded-xl p-3 mb-4 col-span-2 row-span-3">
       <h3 class="mb-6">
@@ -71,6 +73,7 @@ const allBlogs = await paginateFunction<ApiBlogs['attributes']>(listBlogs).then(
             </>
           ))
         }
+        {Object.values(allBlogs).length === 0 && (<p>There are no blogs currently available</p>)}
       </dl>
     </aside>
     

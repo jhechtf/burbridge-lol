@@ -2,6 +2,7 @@
 import Contents from '$components/contents/contents.astro';
 import { listOthers } from '$lib/other';
 import { paginateFunction } from '$lib/pagination';
+import { calculateReadingTime } from '$lib/util';
 import Main from '../../layouts/main.astro';
 
 export async function getStaticPaths() {
@@ -28,6 +29,8 @@ const others = [];
         other.title &&
         <h2 class="mb-4">{other.title}</h2>
       }
+
+      <h3>{calculateReadingTime(other.contents) === 0 ? '<1' : calculateReadingTime(other.contents)} min read</h3>
 
       <Contents contents={other.contents} />
 
