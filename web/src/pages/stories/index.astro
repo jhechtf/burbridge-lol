@@ -1,43 +1,24 @@
 ---
+import { getPayloadInstance } from '$lib/util';
 import MainLayout from '../../layouts/main.astro';
 import { listStories } from '../../lib/stories';
-const stories = await listStories();
+import { RichText } from '@payload-bites/astro-richtext-renderer';
+
+const payload = await getPayloadInstance();
 // import { getCollection } from 'astro:content';
-// const stories = await getCollection(
-//   'stories',
-//   (e) => import.meta.env.NODE_ENV !== 'production' || !e.data.draft,
-// ).then((st) => st.sort((a, b) => a.data.chapter - b.data.chapter));
+const stories = await payload.find({
+  collection: 'stories',
+  limit: 0,
+  draft: import.meta.env.DEV,
+  depth: 1,
+  select: {
+    chapters: true,
+    slug: true,
+    title: true,
+    description: true,
+  }
+});
 
-// type Story = Awaited<ReturnType<typeof getCollection<'stories'>>>[number];
-
-// type MappedStory = {
-//   title: string;
-//   chapters: number;
-//   tags: Set<string>;
-//   slug: string;
-// };
-
-// type StoryGroup = Record<string, MappedStory>;
-
-// const groupedStories = stories.reduce(
-//   (acc, story) => {
-//     if (!acc[story.data.title])
-//       acc[story.data.title] = {
-//         title: story.data.title,
-//         chapters: 0,
-//         tags: new Set(),
-//         slug: story.id,
-//       };
-
-//     acc[story.data.title].chapters += 1;
-//     for (const tag of story.data.tags) {
-//       acc[story.data.title].tags.add(tag);
-//     }
-
-//     return acc;
-//   },
-//   {} as Record<string, MappedStory>,
-// );
 ---
 
 <MainLayout>
@@ -48,8 +29,8 @@ const stories = await listStories();
     </p>
     <main>
       {
-        stories.data &&
-        stories.data.map(story => (
+        stories.docs &&
+        stories.docs.map(story => (
 
         <article class="border p-3 rounded-md">
           <a href={`/stories/${story.slug}/${story.chapters[0]?.slug}`}>
@@ -62,12 +43,12 @@ const stories = await listStories();
                 </h2>
               </header>
             </a>
-            <p>{story.synopsis}</p>
+            <RichText data={story.description}></RichText>
           </article>
         ))
       }
       {
-        stories.data && stories.data.length === 0 && (
+        stories.docs && stories.docs.length === 0 && (
           <div class="text-center mt-6">
             There are currently no stories available
           </div>

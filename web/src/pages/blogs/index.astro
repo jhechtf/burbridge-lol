@@ -3,39 +3,52 @@ import Card from '$components/card/card.astro';
 import MonthDate from '$components/dates/monthDate.astro';
 import MainLayout from '$layouts/main.astro';
 import { listBlogs } from '$lib/blogs';
+import { getPayloadInstance } from '$lib/util';
 import { paginateFunction, strapiUrl } from '$lib/pagination';
 import type { ApiBlogBlog as ApiBlogs } from '$types/contentTypes';
+const payloadUri = process.env.PAYLOAD_URL || 'http://localhost:3000'
 
-const blogs = await listBlogs();
+const payload = await getPayloadInstance();
+
+const blogs = await payload.find({
+  draft: import.meta.env.DEV,
+  collection: 'blogs',
+  limit: 0,
+});
+
 // We have to make it so that all of the blogs get populated to have an archive on the sidebar.
-const allBlogs = await paginateFunction<ApiBlogs['attributes']>(listBlogs).then(
-  (r) => {
-    const groups = r.reduce(
-      (all, cur) => {
-        const monthYear = new Date(
-          cur.publishedAt || cur.updatedAt,
-        ).toLocaleDateString(undefined, {
-          year: 'numeric',
-          month: 'long',
-        });
-        if (!all[monthYear]) all[monthYear] = [];
-        all[monthYear].push(cur);
-        return all;
-      },
-      {} as Record<string, typeof r>,
-    );
-    return groups;
-  },
-);
+// const allBlogs = blogs.docs.map(
+//   (r) => {
+//     const groups = r.reduce(
+//       (all, cur) => {
+//         const monthYear = new Date(
+//           cur.publishedAt || cur.updatedAt,
+//         ).toLocaleDateString(undefined, {
+//           year: 'numeric',
+//           month: 'long',
+//         });
+//         if (!all[monthYear]) all[monthYear] = [];
+//         all[monthYear].push(cur);
+//         return all;
+//       },
+//       {} as Record<string, typeof r>,
+//     );
+//     return groups;
+//   },
+// );
+
+const allBlogs = {};
 ---
 <MainLayout>
   <div class="col-start-2 -col-end-2 grid grid-cols-subgrid mt-8 grid-rows-3">
     <main class="col-span-8 p-4 grid grid-cols-subgrid">
       <h1 class="h1 mb-4 col-span-12">Blogs</h1>
-      {blogs.data.map(blog => (
+      {blogs.docs.map(blog => (
         <Card class="col-span-2" >
           <div class="contents" slot="header">
-            {blog.header && <img src={`${strapiUrl}${blog.header.formats.thumbnail.url}`} class="w-full" alt="Header Image" />}
+
+            { blog.header && typeof blog.header === 'object' && <img src={`${payloadUri}${blog.header.url}`} alt={blog.header.alt}/>}
+            {/* {blog.header && <img src={`${strapiUrl}${blog.header.formats.thumbnail.url}`} class="w-full" alt="Header Image" />} */}
             <a href={`/blogs/${blog.slug}`} class="text-lg">
               {blog.title}
             </a>
@@ -48,7 +61,7 @@ const allBlogs = await paginateFunction<ApiBlogs['attributes']>(listBlogs).then(
         </Card>
       ))}
 
-      {blogs.data.length === 0 && (<p class="col-start-1 -col-end-1">No blogs; check back soon!</p>)}
+      {blogs.docs.length === 0 && (<p class="col-start-1 -col-end-1">No blogs; check back soon!</p>)}
 
     </main>
     <aside class="bg-zinc-700 rounded-xl p-3 mb-4 col-span-2 row-span-3">

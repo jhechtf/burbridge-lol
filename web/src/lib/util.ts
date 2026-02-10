@@ -1,3 +1,6 @@
+import { getPayload } from "payload";
+import { config } from '@burbridge/payload';
+
 export type Contents =
   | {
       type: 'text';
@@ -34,4 +37,8 @@ export function calculateReadingTime(contents: Contents[]): number {
   }
 
   return Math.round(words / 255);
+}
+
+export function getPayloadInstance() {
+  return getPayload({ config })
 }
