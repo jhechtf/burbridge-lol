@@ -1,6 +1,9 @@
 import { defineConfig, envField } from 'astro/config';
 
+import { loadEnv } from 'payload/node';
 import tailwindcss from '@tailwindcss/vite';
+
+loadEnv();
 
 // https://astro.build/config
 export default defineConfig({

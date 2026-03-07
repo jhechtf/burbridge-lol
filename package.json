@@ -2,7 +2,9 @@
   "name": "burbridge-lol-mono",
   "scripts": {
     "dev": "turbo run dev --ui tui",
-    "lint": "turbo run lint"
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "format": "turbo run format"
   },
   "devDependencies": {
     "turbo": "^2.8.1"

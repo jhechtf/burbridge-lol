@@ -1,6 +1,7 @@
 packages:
   - strapi
   - web
+  - payload
 
 ignoredBuiltDependencies:
   - core-js-pure

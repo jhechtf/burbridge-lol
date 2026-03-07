@@ -11,6 +11,9 @@
     "ci": {
       "cache": false
     },
+    "format": {
+      "cache": false
+    },
     "dev": {
       "cache": false,
       "persistent": true
