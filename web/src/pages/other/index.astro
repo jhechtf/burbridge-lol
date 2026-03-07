@@ -1,13 +1,17 @@
 ---
 import { listOthers } from '$lib/other';
 import { getAllTagsForType } from '$lib/tags';
+import { getPayloadInstance } from '$lib/util';
 import Main from '../../layouts/main.astro';
 
-const others = await listOthers();
-const othersByTag = await getAllTagsForType('others').then((r) => {
-  return r.filter((t) => t.others && t.others.length > 0);
-});
-console.info(others);
+const payload = await getPayloadInstance();
+const others = await payload.find({
+  collection: 'others',
+  limit: 100,
+  sort: '-updatedAt',
+  draft: import.meta.env.DEV,
+})
+
 ---
 <Main title="Other Pieces">
   <div class="p-4 col-span-12 @lg/main:col-span-6 @lg/main:col-start-3 space-y-4">
@@ -17,17 +21,17 @@ console.info(others);
       where those pieces will live.
     </p>
     {
-      others.data.length === 0 && (
+      others.docs.length === 0 && (
         <div>No other pieces exist at this moment in time</div>
       )
     }
     {
-      others.data.length > 0 && (
+      others.docs.length > 0 && (
         <div class="space-y-5">
-          {others.data.map((story) => (
+          {others.docs.map((other) => (
             <h3 class="bg-slate-800 p-4 rounded-md">
-              <a href={`/other/${story.slug}`}>
-                {story.title}
+              <a href={`/other/${other.slug}`}>
+                {other.title}
               </a>
             </h3>
           ))}
@@ -43,14 +47,15 @@ console.info(others);
 
     <div class="flex justify-start flex-wrap gap-2">
       {
-        othersByTag.length > 0 
-          ? othersByTag.map(tag => (
-            <div class="pill bg-sky-700 px-3 py-1 rounded-full">
-              {tag.display}
-            </div>
-          ))
-          : (<p>No Tags yet</p>)
+        // othersByTag.length > 0 
+        //   ? othersByTag.map(tag => (
+        //     <div class="pill bg-sky-700 px-3 py-1 rounded-full">
+        //       {tag.display}
+        //     </div>
+        //   ))
+        //   : (<p>No Tags yet</p>)
       }
+      No tags right now.
     </div>
   </aside>
 </Main>

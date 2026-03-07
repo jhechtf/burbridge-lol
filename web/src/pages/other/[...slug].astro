@@ -1,13 +1,21 @@
 ---
-import Contents from '$components/contents/contents.astro';
 import { listOthers } from '$lib/other';
 import { paginateFunction } from '$lib/pagination';
-import { calculateReadingTime } from '$lib/util';
+import { getPayloadInstance } from '$lib/util';
 import Main from '../../layouts/main.astro';
+import { RichText } from '@payload-bites/astro-richtext-renderer';
+
+
 
 export async function getStaticPaths() {
+  const payload = await getPayloadInstance();
+  const oo = await payload.find({
+    collection: 'others',
+    limit: 0,
+    draft: import.meta.env.DEV,
+  });
   const others = await paginateFunction(listOthers);
-  return others.map((m) => ({
+  return oo.docs.map((m) => ({
     params: {
       slug: m.slug,
     },
@@ -20,6 +28,7 @@ export async function getStaticPaths() {
 const { other } = Astro.props;
 
 const others = [];
+
 ---
 
 <Main>
@@ -30,21 +39,9 @@ const others = [];
         <h2 class="mb-4">{other.title}</h2>
       }
 
-      <h3>{calculateReadingTime(other.contents) === 0 ? '<1' : calculateReadingTime(other.contents)} min read</h3>
-
-      <Contents contents={other.contents} />
+      <RichText data={other.contents} />
 
     </div>
-    <aside class="@lg/main:col-span-2 p-4">
-      <h4>Other stories</h4>
-      {
-        others.length === 0 && (
-          <p>
-            No other stories available at the moment
-          </p>
-        )
-      }
-    </aside>
   </div>
 </Main>
 
