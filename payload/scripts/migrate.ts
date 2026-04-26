@@ -112,16 +112,6 @@ interface StrapiItem<T> {
 }
 
 // Strapi block/inline content types
-interface StrapiTextNode {
-  type: "text";
-  text: string;
-  bold?: boolean;
-  italic?: boolean;
-  underline?: boolean;
-  strikethrough?: boolean;
-  code?: boolean;
-}
-
 interface StrapiBlockChild {
   type: string;
   text?: string;
@@ -345,10 +335,15 @@ function childrenToLexicalTexts(
       },
     ];
   }
-  // Flatten: only keep direct text-type children; fall back to extractText for nested
-  return children
-    .filter((c) => c.type === "text")
-    .map((c) => makeLexicalText(c));
+  // Flatten: text-type children are converted directly; non-text inlines (e.g.
+  // links) have their visible text extracted so content is not silently dropped.
+  return children.flatMap((c) => {
+    if (c.type === "text") return [makeLexicalText(c)];
+    // Non-text inline (e.g. link) — preserve visible text, lose href
+    const text = extractText(c.children);
+    if (!text) return [];
+    return [makeLexicalText({ type: "text", text, ...c })];
+  });
 }
 
 function makeParagraph(
@@ -434,17 +429,19 @@ function convertStrapiBlocksToLexical(
           }
         }
 
-        children.push({
-          type: "list",
-          version: 1,
-          listType: isOrdered ? "number" : "bullet",
-          tag: isOrdered ? "ol" : "ul",
-          children: listItems,
-          direction: "ltr",
-          format: "",
-          indent: 0,
-          start: 1,
-        });
+        if (listItems.length > 0) {
+          children.push({
+            type: "list",
+            version: 1,
+            listType: isOrdered ? "number" : "bullet",
+            tag: isOrdered ? "ol" : "ul",
+            children: listItems,
+            direction: "ltr",
+            format: "",
+            indent: 0,
+            start: 1,
+          });
+        }
         break;
       }
 
@@ -573,7 +570,6 @@ async function fetchStrapiPage<T>(
   const res = await fetch(url.toString(), {
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
     },
   });
 
@@ -627,7 +623,8 @@ async function payloadLogin(
     );
   }
 
-  const json = (await res.json()) as { token: string };
+  const json = (await res.json()) as { token?: string };
+  if (!json.token) throw new Error("Payload login: no token in response");
   return json.token;
 }
 
@@ -658,8 +655,14 @@ async function payloadCreate(
     );
   }
 
-  const json = (await res.json()) as { doc: { id: number | string } };
-  return { id: json.doc.id };
+  const json = (await res.json()) as {
+    doc?: { id?: number | string };
+    id?: number | string;
+  };
+  const id = json.doc?.id ?? json.id;
+  if (id === undefined)
+    throw new Error(`POST /${collection}: no id in response`);
+  return { id };
 }
 
 // ---------------------------------------------------------------------------
@@ -697,13 +700,15 @@ function initSummary(name: string) {
 }
 
 function recordInserted(name: string) {
-  const s = summary.get(name)!;
+  const s = summary.get(name) ?? { inserted: 0, skipped: 0 };
   s.inserted++;
+  summary.set(name, s);
 }
 
 function recordSkipped(name: string) {
-  const s = summary.get(name)!;
+  const s = summary.get(name) ?? { inserted: 0, skipped: 0 };
   s.skipped++;
+  summary.set(name, s);
 }
 
 function printSummary() {
@@ -941,6 +946,12 @@ async function migrateChapters(
     const strapiStoryIds = getRelationIds(attrs.story);
     const payloadStoryId =
       strapiStoryIds.length > 0 ? storyIdMap.get(strapiStoryIds[0]) : undefined;
+
+    if (strapiStoryIds.length > 0 && payloadStoryId === undefined) {
+      console.warn(
+        `[${label}] Chapter "${attrs.chapter_title}" (strapi: ${item.id}) references story strapi:${strapiStoryIds[0]} which has no Payload mapping — story relation will be omitted`
+      );
+    }
 
     try {
       const result = await payloadCreate(
