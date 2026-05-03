@@ -342,7 +342,7 @@ function childrenToLexicalTexts(
     // Non-text inline (e.g. link) — preserve visible text, lose href
     const text = extractText(c.children);
     if (!text) return [];
-    return [makeLexicalText({ type: "text", text, ...c })];
+    return [makeLexicalText({ ...c, type: "text", text })];
   });
 }
 
