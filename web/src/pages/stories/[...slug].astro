@@ -3,6 +3,8 @@ import { getPayloadInstance } from '$lib/util';
 import { RichText } from '@payload-bites/astro-richtext-renderer';
 import Main from '../../layouts/main.astro';
 
+export const prerender = import.meta.env.PROD;
+
 export async function getStaticPaths() {
   const payload = await getPayloadInstance();
   const stories = await payload.find({
@@ -21,11 +23,6 @@ export async function getStaticPaths() {
     pagination: false,
   });
 
-  console.info(
-    'RAW',
-    stories.docs.map((doc) => doc.chapters),
-  );
-
   const mappedStories = stories.docs.flatMap((story) =>
     story.chapters.map((chapter) => ({
       params: {
@@ -43,8 +40,43 @@ export async function getStaticPaths() {
   return mappedStories;
 }
 
-const { story, contents, chapterTitle, chapterNumber } = Astro.props;
+let story, contents, chapterTitle, chapterNumber;
 const { slug } = Astro.params;
+
+if (import.meta.env.PROD) {
+  ({ story, contents, chapterTitle, chapterNumber } = Astro.props);
+} else {
+  const chapterSlug = slug.split('/').pop();
+  const storySlug = slug.slice(0, -(chapterSlug.length + 1));
+
+  const payload = await getPayloadInstance();
+  const result = await payload.find({
+    collection: 'stories',
+    where: { slug: { equals: storySlug } },
+    draft: true,
+    limit: 1,
+    populate: {
+      chapters: {
+        chapterNumber: true,
+        slug: true,
+        title: true,
+        contents: true,
+      },
+    },
+    sort: ['chapters.chapterNumber'],
+  });
+
+  story = result.docs[0];
+  const chapter = story?.chapters.find((c) => c.slug === chapterSlug);
+
+  if (!story || !chapter) {
+    return new Response(null, { status: 404 });
+  }
+
+  contents = chapter.contents;
+  chapterTitle = chapter.title;
+  chapterNumber = chapter.chapterNumber;
+}
 ---
 
 <Main>
