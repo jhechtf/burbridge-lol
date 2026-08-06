@@ -18,7 +18,12 @@ export const Chapter: CollectionConfig = {
 			type: "richText",
 			required: true,
 		},
-		slugField(),
+		{
+			name: "slug",
+			type: "text",
+			required: true,
+		},
+		// slugField(),
 		{
 			name: "chapterNumber",
 			type: "number",

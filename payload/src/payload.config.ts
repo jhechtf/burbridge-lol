@@ -36,5 +36,5 @@ export default buildConfig({
 	}),
 	sharp,
 	plugins: [],
-	serverURL: "http://localhost:3000",
+	serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL || "http://localhost:3000",
 });

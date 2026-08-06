@@ -330,10 +330,6 @@ export interface Chapter {
 		};
 		[k: string]: unknown;
 	};
-	/**
-	 * When enabled, the slug will auto-generate from the title field on save and autosave.
-	 */
-	generateSlug?: boolean | null;
 	slug: string;
 	chapterNumber?: number | null;
 	story?: (number | null) | Story;
@@ -496,7 +492,6 @@ export interface OthersSelect<T extends boolean = true> {
 export interface ChaptersSelect<T extends boolean = true> {
 	title?: T;
 	contents?: T;
-	generateSlug?: T;
 	slug?: T;
 	chapterNumber?: T;
 	story?: T;
