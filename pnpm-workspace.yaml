@@ -1,5 +1,4 @@
 packages:
-  - strapi
   - web
   - payload
 
