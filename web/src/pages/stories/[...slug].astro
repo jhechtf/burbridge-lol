@@ -1,6 +1,7 @@
 ---
 import { getPayloadInstance } from '$lib/util';
 import { RichText } from '@payload-bites/astro-richtext-renderer';
+import type { InferGetStaticPropsType } from 'astro';
 import Main from '../../layouts/main.astro';
 
 export const prerender = import.meta.env.PROD;
@@ -40,7 +41,12 @@ export async function getStaticPaths() {
   return mappedStories;
 }
 
-let story, contents, chapterTitle, chapterNumber;
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+let story: Props['story'];
+let contents: Props['contents'];
+let chapterTitle: Props['chapterTitle'];
+let chapterNumber: Props['chapterNumber'];
 const { slug } = Astro.params;
 
 if (import.meta.env.PROD) {

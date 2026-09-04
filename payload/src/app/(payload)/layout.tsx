@@ -13,7 +13,8 @@ type Args = {
 	children: React.ReactNode | React.ReactNode[];
 };
 
-const serverFunction: ServerFunctionClient = async (args) => handleServerFunctions({
+const serverFunction: ServerFunctionClient = async (args) =>
+	handleServerFunctions({
 		...args,
 		config,
 		importMap,

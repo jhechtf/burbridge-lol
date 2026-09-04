@@ -1,8 +1,8 @@
 ---
 import { getPayloadInstance } from '$lib/util';
+import { RichText } from '@payload-bites/astro-richtext-renderer';
 import MainLayout from '../../layouts/main.astro';
 import { listStories } from '../../lib/stories';
-import { RichText } from '@payload-bites/astro-richtext-renderer';
 
 const payload = await getPayloadInstance();
 // import { getCollection } from 'astro:content';

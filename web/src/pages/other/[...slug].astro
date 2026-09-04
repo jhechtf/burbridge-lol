@@ -2,8 +2,8 @@
 import { listOthers } from '$lib/other';
 import { paginateFunction } from '$lib/pagination';
 import { getPayloadInstance } from '$lib/util';
-import Main from '../../layouts/main.astro';
 import { RichText } from '@payload-bites/astro-richtext-renderer';
+import Main from '../../layouts/main.astro';
 
 export async function getStaticPaths() {
   const payload = await getPayloadInstance();

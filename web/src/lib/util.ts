@@ -1,5 +1,5 @@
-import { getPayload } from 'payload';
 import { config } from '@burbridge/payload';
+import { getPayload } from 'payload';
 
 export type Contents =
   | {
