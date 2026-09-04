@@ -18,9 +18,15 @@ jobs:
       - uses: superfly/flyctl-actions/setup-flyctl@master
       # need local only because otherwise it doesn't pass this arg correctly.
       - name: Deploy web
-        run: cd web && flyctl deploy --local-only --build-arg strapi_url=${STRAPI_API}
+        run: |
+          flyctl deploy --config web/fly.toml --local-only \
+            --build-arg strapi_url="${STRAPI_API}" \
+            --build-secret PAYLOAD_SECRET="${PAYLOAD_SECRET}" \
+            --build-secret DATABASE_URL="${DATABASE_URL}"
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
 
       - name: Sync payload secrets
         run: |

@@ -24,25 +24,38 @@ FROM base AS build
 
 # Install packages needed to build node modules
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential node-gyp pkg-config 
+    apt-get install --no-install-recommends -y build-essential node-gyp pkg-config
 
-# Install node modules
-COPY package.json pnpm-lock.yaml ./
+# Install workspace node modules (this app is part of a pnpm workspace and
+# depends on the sibling @burbridge/payload package, so the build context
+# and lockfile installation both need to happen at the workspace root)
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY patches ./patches
+COPY web/package.json ./web/package.json
+COPY payload/package.json ./payload/package.json
 RUN pnpm install --frozen-lockfile
 
 # Copy application code
-COPY . .
+COPY web ./web
+COPY payload ./payload
 
 ENV STRAPI_API=${strapi_url}
 # Build application
-RUN pnpm run build
+# astro build calls into Payload at build time (getStaticPaths enumerates
+# content pages), which needs PAYLOAD_SECRET/DATABASE_URL. Read via BuildKit
+# secret mounts so the values never land in image layers/history.
+RUN --mount=type=secret,id=PAYLOAD_SECRET \
+    --mount=type=secret,id=DATABASE_URL \
+    PAYLOAD_SECRET="$(cat /run/secrets/PAYLOAD_SECRET)" \
+    DATABASE_URL="$(cat /run/secrets/DATABASE_URL)" \
+    pnpm --filter ./web run build
 
 
 # Final stage for app image
 FROM nginx
 
 # Copy built application
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/web/dist /usr/share/nginx/html
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 80
