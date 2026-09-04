@@ -43,6 +43,11 @@ jobs:
           PAYLOAD_URL: ${{ secrets.PAYLOAD_URL }}
 
       - name: Deploy payload
-        run: cd payload && flyctl deploy --local-only
+        run: |
+          flyctl deploy --local-only --config payload/fly.toml \
+            --build-secret PAYLOAD_SECRET="${PAYLOAD_SECRET}" \
+            --build-secret DATABASE_URL="${DATABASE_URL}"
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}

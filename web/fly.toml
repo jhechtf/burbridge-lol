@@ -7,7 +7,7 @@ app = 'burbridge-lol'
 primary_region = 'sjc'
 
 [build]
-  dockerfile = 'web/Dockerfile'
+  dockerfile = 'Dockerfile'
   ignorefile = '.dockerignore'
 
 [http_service]

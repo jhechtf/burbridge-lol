@@ -1,6 +1,4 @@
 ---
-import { listOthers } from '$lib/other';
-import { paginateFunction } from '$lib/pagination';
 import { getPayloadInstance } from '$lib/util';
 import { RichText } from '@payload-bites/astro-richtext-renderer';
 import Main from '../../layouts/main.astro';
@@ -12,7 +10,6 @@ export async function getStaticPaths() {
     limit: 0,
     draft: import.meta.env.DEV,
   });
-  const others = await paginateFunction(listOthers);
   return oo.docs.map((m) => ({
     params: {
       slug: m.slug,
@@ -24,8 +21,6 @@ export async function getStaticPaths() {
 }
 
 const { other } = Astro.props;
-
-const others = [];
 ---
 
 <Main>
