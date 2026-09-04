@@ -16,12 +16,16 @@
 		"ci": "biome ci"
 	},
 	"dependencies": {
-		"@astrojs/check": "^0.9.4",
-		"@astrojs/db": "^0.14.5",
-		"@astrojs/node": "^9.5.2",
-		"@astrojs/tailwind": "^5.1.4",
+		"@astrojs/check": "^0.9.10",
+		"@astrojs/db": "^0.21.3",
+		"@astrojs/node": "^11.1.0",
+		"@astrojs/tailwind": "^6.0.2",
+		"@burbridge/payload": "workspace:*",
+		"@payload-bites/astro-richtext-renderer": "^2.2.0",
 		"@tailwindcss/vite": "^4.0.15",
-		"astro": "^5.1.1",
+		"astro": "^7.2.0",
+		"payload": "3.76.1",
+		"sharp": "0.34.2",
 		"tailwindcss": "^4.0.15",
 		"typescript": "^5.5.4"
 	},
