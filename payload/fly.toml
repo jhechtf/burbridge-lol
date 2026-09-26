@@ -7,6 +7,8 @@ app = 'burbridge-lol-payload'
 primary_region = 'sjc'
 
 [build]
+  dockerfile = 'Dockerfile'
+  ignorefile = '.dockerignore'
 
 [env]
   PORT = '3000'
