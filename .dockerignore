@@ -1,0 +1,36 @@
+# version control
+.git/
+.worktrees/
+.turbo/
+
+# dependencies
+node_modules/
+**/node_modules/
+
+# web build output
+web/dist/
+web/.astro/
+
+# payload build output
+payload/.next/
+payload/media/
+payload/coverage/
+payload/test-results/
+payload/playwright-report/
+payload/blob-report/
+
+# env files
+.env
+.env.*
+**/.env
+**/.env.*
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# editor / OS
+.DS_Store
+.idea/

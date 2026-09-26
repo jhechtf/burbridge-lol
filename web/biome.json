@@ -7,7 +7,7 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": ["generated/", "types/contentTypes.d.ts", ".astro/"]
+		"ignore": ["generated/", "types/contentTypes.d.ts", ".astro/", ".next/"]
 	},
 	"formatter": {
 		"enabled": true,

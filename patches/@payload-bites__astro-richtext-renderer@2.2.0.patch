@@ -1,0 +1,7 @@
+diff --git a/src/index.js b/src/index.js
+index 7c6bd2a1aeccfac64d310d33c05c2a50bf582679..aae9c0a8b13b391614cedb4a45e3f010620fee85 100644
+--- a/src/index.js
++++ b/src/index.js
+@@ -1,2 +1 @@
+ export { default as RichText } from "./components/RichText.astro";
+-export { AstroConvertersFunction, ConverterProps } from "./types";

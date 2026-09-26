@@ -1,12 +1,15 @@
 packages:
-  - strapi
   - web
+  - payload
 
 ignoredBuiltDependencies:
   - core-js-pure
-  - sharp
 
 onlyBuiltDependencies:
   - '@biomejs/biome'
   - '@swc/core'
   - esbuild
+  - sharp
+
+patchedDependencies:
+  '@payload-bites/astro-richtext-renderer@2.2.0': patches/@payload-bites__astro-richtext-renderer@2.2.0.patch
