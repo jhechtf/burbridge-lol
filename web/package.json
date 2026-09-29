@@ -21,7 +21,7 @@
 		"@astrojs/node": "^11.1.0",
 		"@astrojs/tailwind": "^6.0.2",
 		"@burbridge/payload": "workspace:*",
-		"@payload-bites/astro-richtext-renderer": "^2.2.0",
+		"@payload-bites/astro-richtext-renderer": "^2.2.1",
 		"@tailwindcss/vite": "^4.0.15",
 		"astro": "^7.2.0",
 		"payload": "3.76.1",
