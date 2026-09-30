@@ -30,7 +30,6 @@ RUN apt-get update -qq && \
 # depends on the sibling @burbridge/payload package, so the build context
 # and lockfile installation both need to happen at the workspace root)
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-COPY patches ./patches
 COPY web/package.json ./web/package.json
 COPY payload/package.json ./payload/package.json
 RUN pnpm install --frozen-lockfile
