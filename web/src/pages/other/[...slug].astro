@@ -1,5 +1,5 @@
 ---
-import { getPayloadInstance } from '$lib/util';
+import { getPayloadInstance, includeDrafts, publishedOnly } from '$lib/util';
 import { RichText } from '@payload-bites/astro-richtext-renderer';
 import Main from '../../layouts/main.astro';
 
@@ -8,7 +8,8 @@ export async function getStaticPaths() {
   const oo = await payload.find({
     collection: 'others',
     limit: 0,
-    draft: import.meta.env.DEV,
+    draft: includeDrafts,
+    where: publishedOnly,
   });
   return oo.docs.map((m) => ({
     params: {

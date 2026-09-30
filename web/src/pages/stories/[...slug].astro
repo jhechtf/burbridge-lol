@@ -1,5 +1,10 @@
 ---
-import { getPayloadInstance } from '$lib/util';
+import {
+  getPayloadInstance,
+  includeDrafts,
+  isVisible,
+  publishedOnly,
+} from '$lib/util';
 import { RichText } from '@payload-bites/astro-richtext-renderer';
 import type { InferGetStaticPropsType } from 'astro';
 import Main from '../../layouts/main.astro';
@@ -11,32 +16,38 @@ export async function getStaticPaths() {
   const stories = await payload.find({
     collection: 'stories',
     limit: 0,
-    draft: import.meta.env.DEV,
+    draft: includeDrafts,
+    where: publishedOnly,
     populate: {
       chapters: {
         chapterNumber: true,
         slug: true,
         title: true,
         contents: true,
+        _status: true,
       },
     },
     sort: ['chapters.chapterNumber'],
     pagination: false,
   });
 
-  const mappedStories = stories.docs.flatMap((story) =>
-    story.chapters.map((chapter) => ({
+  const mappedStories = stories.docs.flatMap((story) => {
+    const visibleStory = {
+      ...story,
+      chapters: story.chapters.filter(isVisible),
+    };
+    return visibleStory.chapters.map((chapter) => ({
       params: {
         slug: `${story.slug}/${chapter.slug}`,
       },
       props: {
-        story: story,
+        story: visibleStory,
         contents: chapter.contents,
         chapterTitle: chapter.title,
         chapterNumber: chapter.chapterNumber,
       },
-    })),
-  );
+    }));
+  });
 
   return mappedStories;
 }
@@ -72,7 +83,8 @@ if (import.meta.env.PROD) {
     sort: ['chapters.chapterNumber'],
   });
 
-  story = result.docs[0];
+  const [found] = result.docs;
+  story = found && { ...found, chapters: found.chapters.filter(isVisible) };
   const chapter = story?.chapters.find((c) => c.slug === chapterSlug);
 
   if (!story || !chapter) {

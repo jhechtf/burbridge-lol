@@ -1,5 +1,10 @@
 ---
-import { getPayloadInstance } from '$lib/util';
+import {
+  getPayloadInstance,
+  includeDrafts,
+  isVisible,
+  publishedOnly,
+} from '$lib/util';
 import { RichText } from '@payload-bites/astro-richtext-renderer';
 import MainLayout from '../../layouts/main.astro';
 import { listStories } from '../../lib/stories';
@@ -9,7 +14,8 @@ const payload = await getPayloadInstance();
 const stories = await payload.find({
   collection: 'stories',
   limit: 0,
-  draft: import.meta.env.DEV,
+  draft: includeDrafts,
+  where: publishedOnly,
   depth: 1,
   select: {
     chapters: true,
@@ -18,6 +24,11 @@ const stories = await payload.find({
     description: true,
   },
 });
+
+const visibleStories = stories.docs.map((story) => ({
+  ...story,
+  chapters: story.chapters.filter(isVisible),
+}));
 ---
 
 <MainLayout>
@@ -28,8 +39,8 @@ const stories = await payload.find({
     </p>
     <main>
       {
-        stories.docs &&
-        stories.docs.map(story => (
+        visibleStories &&
+        visibleStories.map(story => (
 
         <article class="border p-3 rounded-md">
           <a href={`/stories/${story.slug}/${story.chapters[0]?.slug}`}>
@@ -47,7 +58,7 @@ const stories = await payload.find({
         ))
       }
       {
-        stories.docs && stories.docs.length === 0 && (
+        visibleStories && visibleStories.length === 0 && (
           <div class="text-center mt-6">
             There are currently no stories available
           </div>
