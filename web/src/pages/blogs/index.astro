@@ -2,12 +2,13 @@
 import Card from '$components/card/card.astro';
 import MonthDate from '$components/dates/monthDate.astro';
 import MainLayout from '$layouts/main.astro';
-import { getPayloadInstance } from '$lib/util';
+import { getPayloadInstance, includeDrafts, publishedOnly } from '$lib/util';
 
 const payload = await getPayloadInstance();
 
 const blogs = await payload.find({
-  draft: import.meta.env.DEV,
+  draft: includeDrafts,
+  where: publishedOnly,
   collection: 'blogs',
   limit: 0,
 });

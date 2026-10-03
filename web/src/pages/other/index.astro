@@ -1,7 +1,7 @@
 ---
 import { listOthers } from '$lib/other';
 import { getAllTagsForType } from '$lib/tags';
-import { getPayloadInstance } from '$lib/util';
+import { getPayloadInstance, includeDrafts, publishedOnly } from '$lib/util';
 import Main from '../../layouts/main.astro';
 
 const payload = await getPayloadInstance();
@@ -9,7 +9,8 @@ const others = await payload.find({
   collection: 'others',
   limit: 100,
   sort: '-updatedAt',
-  draft: import.meta.env.DEV,
+  draft: includeDrafts,
+  where: publishedOnly,
 });
 ---
 <Main title="Other Pieces">

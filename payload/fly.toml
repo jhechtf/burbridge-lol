@@ -12,7 +12,7 @@ primary_region = 'sjc'
 
 [env]
   PORT = '3000'
-  PAYLOAD_PUBLIC_SERVER_URL = 'https://burbridge-lol-payload.fly.dev'
+  PAYLOAD_PUBLIC_SERVER_URL = 'https://payload.burbridge.lol'
 
 [http_service]
   internal_port = 3000
